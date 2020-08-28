@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import javax.xml.bind.DatatypeConverter;
 import uk.co.harieo.forceop.common.TokenFileHandler;
 
 public class ForceConnect extends JavaPlugin implements Listener {
@@ -36,14 +37,14 @@ public class ForceConnect extends JavaPlugin implements Listener {
 		loadHash();
 
 		if (enabled) {
-			getLogger().info("ForceOP Shield is now verifying connections from players!");
+			getLogger().info("ForceConnect is now verifying connections from players!");
 		} else if (pluginConfig.isFailsafe()) {
 			getLogger().warning(
-					"ForceOP Shield is REJECTING all connections due to a security error. "
+					"ForceConnect is REJECTING all connections due to a security error. "
 							+ "You can disable this failsafe in the config (not recommended).");
 		} else {
 			getLogger()
-					.warning("ForceOP Shield is NOT verifying connections from players. Your server is not secured.");
+					.warning("ForceConnect is NOT verifying connections from players. Your server is not secured.");
 		}
 
 		Bukkit.getPluginManager().registerEvents(this, this);
@@ -105,16 +106,16 @@ public class ForceConnect extends JavaPlugin implements Listener {
 	public void onPlayerLogin(PlayerLoginEvent event) {
 		boolean allowLogin = !pluginConfig.isFailsafe();
 		if (enabled) {
-			String hostname = event.getHostname();
+			String hostname = event.getHostname().split(":")[0];
 
 			try {
 				MessageDigest digest = MessageDigest.getInstance(pluginConfig.getHashingAlgorithm());
-				if (Arrays.equals(digest.digest(hostname.getBytes(StandardCharsets.UTF_8)), hash)) {
+				if (Arrays.equals(digest.digest(DatatypeConverter.parseHexBinary(hostname)), hash)) {
 					allowLogin = true;
 				}
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
-			}
+			} catch (IllegalArgumentException ignored) { } // Generated when the hostname isn't a hex
 		}
 
 		if (!allowLogin) {

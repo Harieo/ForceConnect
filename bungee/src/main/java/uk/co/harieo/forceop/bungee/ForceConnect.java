@@ -1,6 +1,7 @@
 package uk.co.harieo.forceop.bungee;
 
 import java.io.IOException;
+import javax.xml.bind.DatatypeConverter;
 import net.md_5.bungee.api.event.PlayerHandshakeEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -23,6 +24,12 @@ public class ForceConnect extends Plugin implements Listener {
 
 		if (tokenFileHandler.base64Exists()) {
 			verboseLog("A token file already exists. If you need a new one, use /shield regenerate");
+			try {
+				token = tokenFileHandler.readToken();
+			} catch (IOException e) {
+				e.printStackTrace();
+				getLogger().severe("Failed to read private key, this is a fatal error.");
+			}
 		} else {
 			generateToken();
 		}
@@ -41,7 +48,7 @@ public class ForceConnect extends Plugin implements Listener {
 			byte[] tokenArray = generator.nextToken();
 			token = convertToHex(tokenArray);
 			verboseLog("Key generated, attempting to hash...");
-			byte[] hash = generator.hash(token.getBytes(TokenFileHandler.ENCODING));
+			byte[] hash = generator.hash(DatatypeConverter.parseHexBinary(token));
 			verboseLog("Hashed successfully. Saving to file...");
 			tokenFileHandler.writeHash(hash);
 			tokenFileHandler.writeToken(token);

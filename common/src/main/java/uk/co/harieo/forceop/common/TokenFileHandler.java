@@ -33,7 +33,9 @@ public class TokenFileHandler {
 	 * @throws IOException generated when there is a writing error
 	 */
 	public void writeHash(byte[] hash) throws IOException {
-		writeToFile(tokenHashFile, new String(hash, ENCODING));
+		try (FileOutputStream fileOutputStream = new FileOutputStream(tokenHashFile)) {
+			fileOutputStream.write(hash);
+		}
 	}
 
 	/**
