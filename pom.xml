@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>uk.co.harieo</groupId>
-    <artifactId>ForceOPShield</artifactId>
+    <artifactId>ForceConnect</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>
