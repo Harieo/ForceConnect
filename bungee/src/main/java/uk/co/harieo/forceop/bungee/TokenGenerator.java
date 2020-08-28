@@ -1,44 +1,62 @@
 package uk.co.harieo.forceop.bungee;
 
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Locale;
 
 public class TokenGenerator {
 
 	public static final String DEFAULT_ALGORITHM = "SHA-256";
 
-	private static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	private static final String possibilities = alphabet + alphabet.toLowerCase(Locale.ENGLISH) + "0123456789";
-	private static final int tokenLength = 21;
+	private static final int tokenLength = 32;
 
 	private final SecureRandom random = new SecureRandom();
-	private final char[] possibilityArray = possibilities.toCharArray();
 	private final String hashingAlgorithm;
 
+	/**
+	 * Generator for creating and hashing connection keys
+	 *
+	 * @param hashingAlgorithm which should be used to hash the token
+	 */
 	public TokenGenerator(String hashingAlgorithm) {
 		this.hashingAlgorithm = verifyHashingAlgorithm(hashingAlgorithm);
 	}
 
-	public String nextToken() {
-		char[] buffer = new char[tokenLength];
+	/**
+	 * Generates a new token
+	 *
+	 * @return the new token
+	 */
+	public byte[] nextToken() {
+		byte[] bytes = new byte[tokenLength];
 		for (int i = 0; i < tokenLength; i++) {
-			buffer[i] = possibilityArray[random.nextInt(possibilityArray.length)];
+			random.nextBytes(bytes);
 		}
-		return new String(buffer);
+		return bytes;
 	}
 
-	public byte[] hash(String token) {
+	/**
+	 * Hashes a token using the provided hashing algorithm
+	 *
+	 * @param token which should be hashed
+	 * @return the hashed byte array of the token
+	 */
+	public byte[] hash(byte[] token) {
 		try {
 			MessageDigest digest = MessageDigest.getInstance(hashingAlgorithm);
-			return digest.digest(token.getBytes(StandardCharsets.UTF_8));
+			return digest.digest(token);
 		} catch (NoSuchAlgorithmException e) {
 			throw new SecurityException("Failed to hash token", e);
 		}
 	}
 
+	/**
+	 * Verifies that the specified hashing algorithm is available to this system and in the event it's not, returns
+	 * the default algorithm instead
+	 *
+	 * @param requestedAlgorithm which should be prioritised over the default
+	 * @return the requested algorithm if it is valid or the default algorithm
+	 */
 	private String verifyHashingAlgorithm(String requestedAlgorithm) {
 		try {
 			MessageDigest.getInstance(requestedAlgorithm);

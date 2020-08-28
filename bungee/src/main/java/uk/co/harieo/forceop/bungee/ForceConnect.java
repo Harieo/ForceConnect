@@ -1,6 +1,5 @@
 package uk.co.harieo.forceop.bungee;
 
-import java.io.File;
 import java.io.IOException;
 import net.md_5.bungee.api.event.PlayerHandshakeEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -20,9 +19,9 @@ public class ForceConnect extends Plugin implements Listener {
 	public void onEnable() {
 		pluginConfig = new PluginConfig(this);
 		generator = new TokenGenerator(pluginConfig.getHashingAlgorithm());
-		tokenFileHandler = new TokenFileHandler(new File(getDataFolder(), TokenFileHandler.DEFAULT_FILE_NAME));
+		tokenFileHandler = new TokenFileHandler(getDataFolder());
 
-		if (tokenFileHandler.exists()) {
+		if (tokenFileHandler.base64Exists()) {
 			verboseLog("A token file already exists. If you need a new one, use /shield regenerate");
 		} else {
 			generateToken();
@@ -39,13 +38,16 @@ public class ForceConnect extends Plugin implements Listener {
 	void generateToken() {
 		try {
 			verboseLog("Generating a new secure key...");
-			token = generator.nextToken();
+			byte[] tokenArray = generator.nextToken();
+			token = convertToHex(tokenArray);
 			verboseLog("Key generated, attempting to hash...");
-			byte[] hash = generator.hash(token);
+			byte[] hash = generator.hash(token.getBytes(TokenFileHandler.ENCODING));
 			verboseLog("Hashed successfully. Saving to file...");
 			tokenFileHandler.writeHash(hash);
+			tokenFileHandler.writeToken(token);
 			getLogger()
-					.info("Your token file has been generated at path: " + tokenFileHandler.getTokenFile().getPath());
+					.info("Your token file has been generated at path: "
+							+ tokenFileHandler.getTokenHashFile().getPath());
 		} catch (SecurityException e) {
 			e.printStackTrace();
 			getLogger().severe("There has been a security failure generating the token");
@@ -64,6 +66,24 @@ public class ForceConnect extends Plugin implements Listener {
 		if (pluginConfig.isVerbose()) {
 			getLogger().info(message);
 		}
+	}
+
+	private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+
+	/**
+	 * Converts an array of bytes into hex in string format
+	 *
+	 * @param bytes to convert to hex
+	 * @return the hex encoded string
+	 */
+	private String convertToHex(byte[] bytes) {
+		char[] hexChars = new char[bytes.length * 2];
+		for (int j = 0; j < bytes.length; j++) {
+			int v = bytes[j] & 0xFF;
+			hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+			hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+		}
+		return new String(hexChars);
 	}
 
 	@EventHandler
