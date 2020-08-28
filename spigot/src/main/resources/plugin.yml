@@ -1,0 +1,5 @@
+main: uk.co.harieo.forceop.spigot.ForceOP
+version: 1.0.0
+name: ForceOP-Shield
+author: Harieo
+api-version: '1.16'

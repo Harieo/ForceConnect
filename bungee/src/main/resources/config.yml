@@ -1,0 +1,9 @@
+# Friendly settings #
+
+# Whether to see what the plugin is doing in console
+verbose: true
+# This message is shown to players when the failsafe is active
+failsafe-message: '&cThis server is not accepting connections at this time, please contact an Administrator'
+
+# DANGEROUS SETTINGS - Do not change unless you know what you're doing #
+hashing-algorithm: SHA-256

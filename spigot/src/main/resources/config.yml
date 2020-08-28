@@ -1,0 +1,11 @@
+# Friendly settings #
+
+# Whether to see what the plugin is doing in console
+verbose: true
+# Whether to reject players if there is a security error (recommended)
+failsafe: true
+# This message is shown to players when they attempt to use ForceOP
+connection-refused-message: '&cYour connection is insecure. Please make sure you are using the correct IP address.'
+
+# DANGEROUS SETTINGS - Do not change unless you know what you're doing #
+hashing-algorithm: SHA-256
