@@ -1,4 +1,4 @@
-main: uk.co.harieo.forceop.bungee.ForceOP
+main: uk.co.harieo.forceop.bungee.ForceConnect
 version: 1.0.0
-name: ForceOP-Shield
+name: ForceConnect
 author: Harieo

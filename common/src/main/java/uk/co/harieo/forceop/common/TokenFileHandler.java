@@ -4,12 +4,11 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.List;
 
 public class TokenFileHandler {
 
 	public static final Charset ENCODING = StandardCharsets.UTF_8;
-	public static final String DEFAULT_FILE_NAME = "forceop.token";
+	public static final String DEFAULT_FILE_NAME = "token";
 
 	private final File tokenFile;
 

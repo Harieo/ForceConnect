@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ForceOP-spigot</artifactId>
+    <artifactId>ForceConnect-spigot</artifactId>
 
     <repositories>
         <repository>
@@ -34,7 +34,7 @@
     </dependencies>
 
     <build>
-        <finalName>ForceOPShield-Spigot</finalName>
+        <finalName>ForceConnect-Spigot</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

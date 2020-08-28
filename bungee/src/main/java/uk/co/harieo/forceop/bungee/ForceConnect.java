@@ -9,7 +9,7 @@ import net.md_5.bungee.api.plugin.PluginManager;
 import net.md_5.bungee.event.EventHandler;
 import uk.co.harieo.forceop.common.TokenFileHandler;
 
-public class ForceOP extends Plugin implements Listener {
+public class ForceConnect extends Plugin implements Listener {
 
 	private PluginConfig pluginConfig;
 	private TokenGenerator generator;

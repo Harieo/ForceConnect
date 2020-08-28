@@ -17,7 +17,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import uk.co.harieo.forceop.common.TokenFileHandler;
 
-public class ForceOP extends JavaPlugin implements Listener, PluginMessageListener {
+public class ForceConnect extends JavaPlugin implements Listener, PluginMessageListener {
 
 	public static final String CHANNEL = "forceop:firewall";
 

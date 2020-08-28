@@ -8,9 +8,9 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class ShieldCommand extends Command {
 
-	private final ForceOP plugin;
+	private final ForceConnect plugin;
 
-	public ShieldCommand(ForceOP plugin) {
+	public ShieldCommand(ForceConnect plugin) {
 		super("shield");
 		this.plugin = plugin;
 	}
