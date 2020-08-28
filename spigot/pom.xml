@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>uk.co.harieo</groupId>
-            <artifactId>ForceOP-common</artifactId>
+            <artifactId>ForceConnect-common</artifactId>
             <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
