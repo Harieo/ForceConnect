@@ -6,12 +6,12 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
-public class ShieldCommand extends Command {
+public class GenerateTokenCommand extends Command {
 
 	private final ForceConnect plugin;
 
-	public ShieldCommand(ForceConnect plugin) {
-		super("shield");
+	public GenerateTokenCommand(ForceConnect plugin) {
+		super("forceconnect", null, "fc");
 		this.plugin = plugin;
 	}
 
@@ -20,7 +20,12 @@ public class ShieldCommand extends Command {
 		if (sender instanceof ProxiedPlayer) {
 			sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You may only do this from console!"));
 		} else {
-			plugin.generateToken();
+			if (args.length > 0 && args[0].equalsIgnoreCase("generate")) {
+				plugin.generateToken();
+			} else {
+				sender.sendMessage(TextComponent.fromLegacyText(
+						ChatColor.RED + "To prevent accidental regeneration, please use: /fc generate"));
+			}
 		}
 	}
 

@@ -36,7 +36,7 @@ public class ForceConnect extends Plugin implements Listener {
 
 		PluginManager manager = getProxy().getPluginManager();
 		manager.registerListener(this, this);
-		manager.registerCommand(this, new ShieldCommand(this));
+		manager.registerCommand(this, new GenerateTokenCommand(this));
 	}
 
 	/**
