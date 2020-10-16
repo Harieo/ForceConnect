@@ -23,7 +23,7 @@ public class ForceConnect extends Plugin implements Listener {
 		tokenFileHandler = new TokenFileHandler(getDataFolder());
 
 		if (tokenFileHandler.base64Exists()) {
-			verboseLog("A token file already exists. If you need a new one, use /shield regenerate");
+			verboseLog("A token file already exists. If you need a new one, use /forceconnect generate");
 			try {
 				token = tokenFileHandler.readToken();
 			} catch (IOException e) {
@@ -36,7 +36,7 @@ public class ForceConnect extends Plugin implements Listener {
 
 		PluginManager manager = getProxy().getPluginManager();
 		manager.registerListener(this, this);
-		manager.registerCommand(this, new GenerateTokenCommand(this));
+		manager.registerCommand(this, new ForceConnectCommand(this));
 	}
 
 	/**
