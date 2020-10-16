@@ -14,6 +14,7 @@ to each one.
 
 | Version | Supported          |
 | ------- | ------------------ |
+| Latest  | :white_check_mark: |
 | 1.0.0   | :white_check_mark: |
 
 **Please do not report issues from unsupported verions**. 
