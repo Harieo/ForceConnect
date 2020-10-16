@@ -25,8 +25,8 @@ public class ForceConnectCommand extends Command {
 			}
 		} else {
 			sender.sendMessage(TextComponent.fromLegacyText(
-					ChatColor.LIGHT_PURPLE + ChatColor.BOLD.toString() + "ForceConnect " + ChatColor.GRAY + "v" + plugin
-							.getDescription().getVersion() + " by Harieo"));
+					ChatColor.GRAY + "Connections secured with " + ChatColor.LIGHT_PURPLE + "ForceConnect " + ChatColor.GRAY + "by "
+							+ ChatColor.BLUE + "Harieo"));
 		}
 	}
 
