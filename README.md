@@ -1,4 +1,4 @@
-# ForceConnect ![Java CI](https://github.com/Harieo/ForceConnect/workflows/Java%20CI/badge.svg)  
+# ForceConnect ![Java CI](https://github.com/Harieo/ForceConnect/workflows/Java%20CI/badge.svg) ![CodeQL](https://github.com/Harieo/ForceConnect/workflows/CodeQL/badge.svg)
 A simple firewall-like plugin to prevent UUID spoofing and enforce proxy-side security checks on players.  
 **Please read our legal disclaimer about this project's license at the bottom of this page.**
 
