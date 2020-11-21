@@ -1,5 +1,6 @@
 # ForceConnect ![Java CI](https://github.com/Harieo/ForceConnect/workflows/Java%20CI/badge.svg)  
-A simple firewall-like plugin to prevent UUID spoofing and enforce proxy-side security checks on players. 
+A simple firewall-like plugin to prevent UUID spoofing and enforce proxy-side security checks on players.  
+**Please read our legal disclaimer about this project's license at the bottom of this page.**
 
 ### This is not a substitute for an actual firewall.
 This project is designed to supplement a real firewall by forcing players to connect through a proxy server and detecting if they are not via an encrypted key. 
