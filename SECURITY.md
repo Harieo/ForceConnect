@@ -12,10 +12,11 @@ These versions are currently supported by security updates.
 We will accept all reports on these supported versions and fixes will go out
 to each one. 
 
-| Version | Supported          |
-| ------- | ------------------ |
-| Latest  | :white_check_mark: |
-| 1.0.0   | :white_check_mark: |
+| Version | Module | Supported          |
+| ------- | ------ | ------------------ |
+| 1.0.x   | [bungee](https://github.com/Harieo/ForceConnect/tree/master/bungee) | :white_check_mark: |
+| 1.0.x   | [spigot](https://github.com/Harieo/ForceConnect/tree/master/spigot) | :white_check_mark: |
+| 1.0.x   | [common](https://github.com/Harieo/ForceConnect/tree/master/common) | :white_check_mark: |
 
 **Please do not report issues from unsupported verions**. 
 Instead, update to the latest version and report the issue if it still happens there.
