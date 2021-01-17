@@ -1,12 +1,12 @@
 package uk.co.harieo.forceop.bungee;
 
 import java.io.IOException;
-import javax.xml.bind.DatatypeConverter;
 import net.md_5.bungee.api.event.PlayerHandshakeEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 import net.md_5.bungee.event.EventHandler;
+import uk.co.harieo.forceop.common.DataConverter;
 import uk.co.harieo.forceop.common.TokenFileHandler;
 
 public class ForceConnect extends Plugin implements Listener {
@@ -46,9 +46,9 @@ public class ForceConnect extends Plugin implements Listener {
 		try {
 			verboseLog("Generating a new secure key...");
 			byte[] tokenArray = generator.nextToken();
-			token = convertToHex(tokenArray);
+			token = DataConverter.convertToHex(tokenArray);
 			verboseLog("Key generated, attempting to hash...");
-			byte[] hash = generator.hash(DatatypeConverter.parseHexBinary(token));
+			byte[] hash = generator.hash(DataConverter.convertHexToBinary(token));
 			verboseLog("Hashed successfully. Saving to file...");
 			tokenFileHandler.writeHash(hash);
 			tokenFileHandler.writeToken(token);
@@ -73,24 +73,6 @@ public class ForceConnect extends Plugin implements Listener {
 		if (pluginConfig.isVerbose()) {
 			getLogger().info(message);
 		}
-	}
-
-	private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
-
-	/**
-	 * Converts an array of bytes into hex in string format
-	 *
-	 * @param bytes to convert to hex
-	 * @return the hex encoded string
-	 */
-	private String convertToHex(byte[] bytes) {
-		char[] hexChars = new char[bytes.length * 2];
-		for (int j = 0; j < bytes.length; j++) {
-			int v = bytes[j] & 0xFF;
-			hexChars[j * 2] = HEX_ARRAY[v >>> 4];
-			hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
-		}
-		return new String(hexChars);
 	}
 
 	@EventHandler

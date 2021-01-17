@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import javax.xml.bind.DatatypeConverter;
+import uk.co.harieo.forceop.common.DataConverter;
 import uk.co.harieo.forceop.common.TokenFileHandler;
 
 public class ForceConnect extends JavaPlugin implements Listener {
@@ -109,7 +109,7 @@ public class ForceConnect extends JavaPlugin implements Listener {
 
 			try {
 				MessageDigest digest = MessageDigest.getInstance(pluginConfig.getHashingAlgorithm());
-				if (Arrays.equals(digest.digest(DatatypeConverter.parseHexBinary(hostname)), hash)) {
+				if (Arrays.equals(digest.digest(DataConverter.convertHexToBinary(hostname)), hash)) {
 					allowLogin = true;
 				}
 			} catch (NoSuchAlgorithmException e) {
