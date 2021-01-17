@@ -7,6 +7,7 @@
     <groupId>uk.co.harieo</groupId>
     <artifactId>ForceConnect</artifactId>
     <packaging>pom</packaging>
+    <!-- Remember to change version in modules -->
     <version>1.0.1</version>
     <modules>
         <module>bungee</module>
