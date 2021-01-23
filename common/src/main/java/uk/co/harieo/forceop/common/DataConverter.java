@@ -26,7 +26,7 @@ public class DataConverter {
 	 * @param hexChars an event number of hexadecimal chars
 	 * @return a byte array representing the binary of the hexadecimal parameter
 	 */
-	public static byte[] convertHexToBinary(char[] hexChars) {
+	public static byte[] convertHexToBytes(char[] hexChars) {
 		byte[] bytes = new byte[hexChars.length / 2];
 
 		int byteIndex = 0;
@@ -42,13 +42,13 @@ public class DataConverter {
 	}
 
 	/**
-	 * An overload of {@link #convertHexToBinary(char[])} which accepts a String and converts it to a char array first
+	 * An overload of {@link #convertHexToBytes(char[])} which accepts a String and converts it to a char array first
 	 *
 	 * @param hex string version of a hexadecimal char array
 	 * @return a byte array representing the binary of the hexadecimal parameter
 	 */
-	public static byte[] convertHexToBinary(String hex) {
-		return convertHexToBinary(hex.toCharArray());
+	public static byte[] convertHexToBytes(String hex) {
+		return convertHexToBytes(hex.toCharArray());
 	}
 
 	/**
@@ -58,8 +58,8 @@ public class DataConverter {
 	 * @return the byte
 	 */
 	private static byte decodeHexChar(char hexChar) {
-		if (hexChar >= 65 && hexChar <= 70) {
-			return (byte) (hexChar - 65 + 10); // -65 brings the letter on a scale from 0, +10 because 0-9 are numbers
+		if (hexChar >= 'a' && hexChar <= 'f') {
+			return (byte) (hexChar - 65 + 10); // -65 brings the letter on a scale from 0, +10 because 0-9 are below
 		} else if (hexChar >= 48 && hexChar <= 57) {
 			return (byte) (hexChar - 48); // -48 brings the number on a scale of 0-9
 		} else {

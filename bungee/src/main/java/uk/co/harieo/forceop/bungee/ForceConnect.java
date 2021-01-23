@@ -48,7 +48,7 @@ public class ForceConnect extends Plugin implements Listener {
 			byte[] tokenArray = generator.nextToken();
 			token = DataConverter.convertBinaryToHex(tokenArray);
 			verboseLog("Key generated, attempting to hash...");
-			byte[] hash = generator.hash(DataConverter.convertHexToBinary(token));
+			byte[] hash = generator.hash(DataConverter.convertHexToBytes(token));
 			verboseLog("Hashed successfully. Saving to file...");
 			tokenFileHandler.writeHash(hash);
 			tokenFileHandler.writeToken(token);

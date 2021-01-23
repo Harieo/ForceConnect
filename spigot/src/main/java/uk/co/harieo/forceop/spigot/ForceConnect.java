@@ -109,7 +109,7 @@ public class ForceConnect extends JavaPlugin implements Listener {
 
 			try {
 				MessageDigest digest = MessageDigest.getInstance(pluginConfig.getHashingAlgorithm());
-				if (Arrays.equals(digest.digest(DataConverter.convertHexToBinary(hostname)), hash)) {
+				if (Arrays.equals(digest.digest(DataConverter.convertHexToBytes(hostname)), hash)) {
 					allowLogin = true;
 				}
 			} catch (NoSuchAlgorithmException e) {
