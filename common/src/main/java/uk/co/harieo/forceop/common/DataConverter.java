@@ -10,7 +10,7 @@ public class DataConverter {
 	 * @param bytes to convert to hex
 	 * @return the hex encoded string
 	 */
-	public static String convertBinaryToHex(byte[] bytes) {
+	public static String convertBytesToHex(byte[] bytes) {
 		char[] hexChars = new char[bytes.length * 2];
 		for (int j = 0; j < bytes.length; j++) {
 			int v = bytes[j] & 0xFF;

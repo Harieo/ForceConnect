@@ -46,7 +46,7 @@ public class ForceConnect extends Plugin implements Listener {
 		try {
 			verboseLog("Generating a new secure key...");
 			byte[] tokenArray = generator.nextToken();
-			token = DataConverter.convertBinaryToHex(tokenArray);
+			token = DataConverter.convertBytesToHex(tokenArray);
 			verboseLog("Key generated, attempting to hash...");
 			byte[] hash = generator.hash(DataConverter.convertHexToBytes(token));
 			verboseLog("Hashed successfully. Saving to file...");
