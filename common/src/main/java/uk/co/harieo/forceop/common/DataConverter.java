@@ -58,10 +58,11 @@ public class DataConverter {
 	 * @return the byte
 	 */
 	private static byte decodeHexChar(char hexChar) {
+		hexChar = Character.toLowerCase(hexChar);
 		if (hexChar >= 'a' && hexChar <= 'f') {
-			return (byte) (hexChar - 65 + 10); // -65 brings the letter on a scale from 0, +10 because 0-9 are below
-		} else if (hexChar >= 48 && hexChar <= 57) {
-			return (byte) (hexChar - 48); // -48 brings the number on a scale of 0-9
+			return (byte) (hexChar - 'a' + 10);
+		} else if (hexChar >= '0' && hexChar <= '9') {
+			return (byte) (hexChar - '0');
 		} else {
 			throw new IllegalArgumentException("Invalid hexadecimal: " + hexChar);
 		}
