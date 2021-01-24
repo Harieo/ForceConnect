@@ -45,7 +45,7 @@ public class TokenFileHandler {
 	 */
 	public void writeServerKey(byte[] hash) throws IOException {
 		String base64 = Base64.getEncoder().encodeToString(hash);
-		ServerKeyFile file = new ServerKeyFile(2, base64);
+		KeyFile file = new KeyFile(2, base64, KeyFile.SERVER_KEY_COMMENT);
 
 		// use a try-with-resources to auto-close but let exceptions continue upward
 		try (BufferedWriter writer = Files.newBufferedWriter(serverKeyPath, ENCODING, StandardOpenOption.CREATE)) {
@@ -62,8 +62,8 @@ public class TokenFileHandler {
 	public byte[] readServerKey() throws IOException {
 		// use a try-with-resources to auto-close but let exceptions continue upward
 		try (BufferedReader reader = Files.newBufferedReader(serverKeyPath)) {
-			ServerKeyFile file = gson.fromJson(reader, ServerKeyFile.class);
-			return file.getHash().getBytes(ENCODING);
+			KeyFile file = gson.fromJson(reader, KeyFile.class);
+			return file.getKey().getBytes(ENCODING);
 		}
 	}
 
@@ -75,7 +75,7 @@ public class TokenFileHandler {
 	 */
 	public void writeProxyKey(String token) throws IOException {
 		String base64 = Base64.getEncoder().encodeToString(token.getBytes(ENCODING));
-		ProxyKeyFile file = new ProxyKeyFile(2, base64);
+		KeyFile file = new KeyFile(2, base64, KeyFile.PROXY_KEY_COMMENT);
 
 		// use a try-with-resources to auto-close but let exceptions continue upward
 		try (BufferedWriter writer = Files.newBufferedWriter(proxyKeyPath, ENCODING, StandardOpenOption.CREATE)) {
@@ -92,8 +92,8 @@ public class TokenFileHandler {
 	public String readProxyKey() throws IOException {
 		// use a try-with-resources to auto-close but let exceptions continue upward
 		try (BufferedReader reader = Files.newBufferedReader(proxyKeyPath, ENCODING)) {
-			ProxyKeyFile file = gson.fromJson(reader, ProxyKeyFile.class);
-			return file.getToken();
+			KeyFile file = gson.fromJson(reader, KeyFile.class);
+			return file.getKey();
 		}
 	}
 
