@@ -52,10 +52,9 @@ public class DataConverterTest {
 
 	@Test
 	public void testConvertBytesToHex_table() {
-
 		for (TestCase tc : table) {
 			String result = DataConverter.convertBytesToHex(tc.bytes);
-			assertEquals(tc.hex, result);
+			assertEquals(tc.testName, tc.hex, result);
 		}
 	}
 
@@ -82,8 +81,8 @@ public class DataConverterTest {
 			byte[] bytes = DataConverter.convertHexToBytes(DataConverter.convertBytesToHex(tc.bytes));
 			String hex = DataConverter.convertBytesToHex(DataConverter.convertHexToBytes(tc.hex));
 
-			assertArrayEquals(tc.bytes, bytes);
-			assertEquals(tc.hex, hex);
+			assertEquals(tc.testName, tc.hex, hex);
+			assertArrayEquals(tc.testName, tc.bytes, bytes);
 		}
 	}
 
