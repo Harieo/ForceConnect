@@ -79,16 +79,16 @@ public class ForceConnect extends JavaPlugin implements Listener {
 	 * Attempts to load the hash from the token file
 	 */
 	private void loadHash() {
-		TokenFileHandler tokenFileHandler = new TokenFileHandler(getDataFolder());
-		if (tokenFileHandler.base64Exists()) { // Warn the user if they've uploaded the wrong file
+		TokenFileHandler tokenFileHandler = new TokenFileHandler(getDataFolder().toPath());
+		if (tokenFileHandler.proxyKeyExists()) { // Warn the user if they've uploaded the wrong file
 			getLogger().severe("The private key has been detected on this server. "
 					+ "It is a severe security risk and should only be located on the proxy.");
 		}
 
 		// Enabled is set to true if the hashing algorithm was accepted so if there's an error, it must be set to false here
-		if (tokenFileHandler.hashExists()) {
+		if (tokenFileHandler.serverKeyExists()) {
 			try {
-				hash = tokenFileHandler.readHash();
+				hash = tokenFileHandler.readServerKey();
 				verboseLog("Loaded hash file successfully");
 			} catch (IOException e) {
 				e.printStackTrace();

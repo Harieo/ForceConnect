@@ -20,12 +20,12 @@ public class ForceConnect extends Plugin implements Listener {
 	public void onEnable() {
 		pluginConfig = new PluginConfig(this);
 		generator = new TokenGenerator(pluginConfig.getHashingAlgorithm());
-		tokenFileHandler = new TokenFileHandler(getDataFolder());
+		tokenFileHandler = new TokenFileHandler(getDataFolder().toPath());
 
-		if (tokenFileHandler.base64Exists()) {
+		if (tokenFileHandler.proxyKeyExists()) {
 			verboseLog("A token file already exists. If you need a new one, use /forceconnect generate");
 			try {
-				token = tokenFileHandler.readToken();
+				token = tokenFileHandler.readProxyKey();
 			} catch (IOException e) {
 				e.printStackTrace();
 				getLogger().severe("Failed to read private key, this is a fatal error.");
@@ -44,17 +44,20 @@ public class ForceConnect extends Plugin implements Listener {
 	 */
 	void generateToken() {
 		try {
+
 			verboseLog("Generating a new secure key...");
 			byte[] tokenArray = generator.nextToken();
 			token = DataConverter.convertBytesToHex(tokenArray);
+
 			verboseLog("Key generated, attempting to hash...");
 			byte[] hash = generator.hash(DataConverter.convertHexToBytes(token));
+
 			verboseLog("Hashed successfully. Saving to file...");
-			tokenFileHandler.writeHash(hash);
-			tokenFileHandler.writeToken(token);
+			tokenFileHandler.writeServerKey(hash);
+			tokenFileHandler.writeProxyKey(token);
 			getLogger()
 					.info("Your token file has been generated at path: "
-							+ tokenFileHandler.getTokenHashFile().getPath());
+							+ tokenFileHandler.getServerKeyPath());
 		} catch (SecurityException e) {
 			e.printStackTrace();
 			getLogger().severe("There has been a security failure generating the token");

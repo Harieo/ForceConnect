@@ -1,29 +1,40 @@
 package uk.co.harieo.forceop.common;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Base64;
 
 public class TokenFileHandler {
 
 	public static final Charset ENCODING = StandardCharsets.UTF_8;
-	public static final String DEFAULT_HASH_FILE_NAME = "public_key";
-	public static final String DEFAULT_TOKEN_FILE_NAME = "private_key";
+	public static final String SERVER_KEY_FILE_NAME = "server.publickey.json";
+	public static final String PROXY_KEY_FILE_NAME = "proxy.privatekey.json";
 
-	private final File tokenHashFile;
-	private final File tokenBase64File;
+	private final Path serverKeyPath;
+	private final Path proxyKeyPath;
+
+	private final Gson gson;
 
 	/**
 	 * A handler which reads and writes token files. Note: The unedited token will not work here for the purpose of
 	 * security, instead the file will only write hashed byte arrays.
 	 *
-	 * @param directory where the files should be stored
+	 * @param baseDirectory where the files should be stored
 	 */
-	public TokenFileHandler(File directory) {
-		this.tokenHashFile = new File(directory, DEFAULT_HASH_FILE_NAME);
-		this.tokenBase64File = new File(directory, DEFAULT_TOKEN_FILE_NAME);
+	public TokenFileHandler(Path baseDirectory) {
+		this.serverKeyPath = baseDirectory.resolve(SERVER_KEY_FILE_NAME);
+		this.proxyKeyPath = baseDirectory.resolve(PROXY_KEY_FILE_NAME);
+
+		this.gson = new GsonBuilder()
+				.disableHtmlEscaping()
+				.create();
 	}
 
 	/**
@@ -32,9 +43,13 @@ public class TokenFileHandler {
 	 * @param hash to be written to the file
 	 * @throws IOException generated when there is a writing error
 	 */
-	public void writeHash(byte[] hash) throws IOException {
-		try (FileOutputStream fileOutputStream = new FileOutputStream(tokenHashFile)) {
-			fileOutputStream.write(hash);
+	public void writeServerKey(byte[] hash) throws IOException {
+		String base64 = Base64.getEncoder().encodeToString(hash);
+		ServerKeyFile file = new ServerKeyFile(2, base64);
+
+		// use a try-with-resources to auto-close but let exceptions continue upward
+		try (BufferedWriter writer = Files.newBufferedWriter(serverKeyPath, ENCODING, StandardOpenOption.CREATE)) {
+			gson.toJson(file, writer);
 		}
 	}
 
@@ -44,8 +59,12 @@ public class TokenFileHandler {
 	 * @return the loaded hash
 	 * @throws IOException generated when there is a reading error
 	 */
-	public byte[] readHash() throws IOException {
-		return Files.readAllBytes(tokenHashFile.toPath());
+	public byte[] readServerKey() throws IOException {
+		// use a try-with-resources to auto-close but let exceptions continue upward
+		try (BufferedReader reader = Files.newBufferedReader(serverKeyPath)) {
+			ServerKeyFile file = gson.fromJson(reader, ServerKeyFile.class);
+			return file.getHash().getBytes(ENCODING);
+		}
 	}
 
 	/**
@@ -54,9 +73,14 @@ public class TokenFileHandler {
 	 * @param token to be encoded
 	 * @throws IOException generated when there is a writing error
 	 */
-	public void writeToken(String token) throws IOException {
+	public void writeProxyKey(String token) throws IOException {
 		String base64 = Base64.getEncoder().encodeToString(token.getBytes(ENCODING));
-		writeToFile(tokenBase64File, base64);
+		ProxyKeyFile file = new ProxyKeyFile(2, base64);
+
+		// use a try-with-resources to auto-close but let exceptions continue upward
+		try (BufferedWriter writer = Files.newBufferedWriter(proxyKeyPath, ENCODING, StandardOpenOption.CREATE)) {
+			gson.toJson(file, writer);
+		}
 	}
 
 	/**
@@ -65,49 +89,39 @@ public class TokenFileHandler {
 	 * @return the unsecure full token
 	 * @throws IOException generated when there is a read error
 	 */
-	public String readToken() throws IOException {
-		return new String(Base64.getDecoder().decode(Files.readAllBytes(tokenBase64File.toPath())), ENCODING);
-	}
-
-	/**
-	 * Writes the given string to the given file
-	 *
-	 * @param file to write the string to
-	 * @param toWrite to write to the file
-	 * @throws IOException generated when there is a writing error
-	 */
-	private void writeToFile(File file, String toWrite) throws IOException {
-		try (FileWriter writer = new FileWriter(file)) {
-			writer.write(toWrite);
+	public String readProxyKey() throws IOException {
+		// use a try-with-resources to auto-close but let exceptions continue upward
+		try (BufferedReader reader = Files.newBufferedReader(proxyKeyPath, ENCODING)) {
+			ProxyKeyFile file = gson.fromJson(reader, ProxyKeyFile.class);
+			return file.getToken();
 		}
 	}
 
 	/**
-	 * @return the file where the hash is saved
+	 * @return the path where the hash is saved
 	 */
-	public File getTokenHashFile() {
-		return tokenHashFile;
+	public Path getServerKeyPath() {
+		return serverKeyPath;
 	}
 
 	/**
 	 * @return whether the token's hash file currently exists
 	 */
-	public boolean hashExists() {
-		return tokenHashFile.exists();
+	public boolean serverKeyExists() {
+		return Files.exists(serverKeyPath);
 	}
 
 	/**
-	 * @return the file when there private token is saved
+	 * @return the path when there private token is saved
 	 */
-	public File getTokenBase64File() {
-		return tokenBase64File;
+	public Path getProxyKeyPath() {
+		return proxyKeyPath;
 	}
 
 	/**
 	 * @return whether the base64 token file currently exists
 	 */
-	public boolean base64Exists() {
-		return tokenBase64File.exists();
+	public boolean proxyKeyExists() {
+		return Files.exists(proxyKeyPath);
 	}
-
 }
