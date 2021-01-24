@@ -8,16 +8,13 @@ import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import javax.xml.bind.DatatypeConverter;
+import uk.co.harieo.forceop.common.DataConverter;
 import uk.co.harieo.forceop.common.TokenFileHandler;
 
 public class ForceConnect extends JavaPlugin implements Listener {
-
-	public static final String CHANNEL = "forceop:firewall";
 
 	private PluginConfig pluginConfig;
 	private boolean enabled = false;
@@ -110,9 +107,7 @@ public class ForceConnect extends JavaPlugin implements Listener {
 
 			try {
 				MessageDigest digest = MessageDigest.getInstance(pluginConfig.getHashingAlgorithm());
-				if (Arrays.equals(digest.digest(DatatypeConverter.parseHexBinary(hostname)), hash)) {
-					allowLogin = true;
-				}
+				allowLogin = Arrays.equals(digest.digest(DataConverter.convertHexToBytes(hostname)), hash);
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			} catch (IllegalArgumentException ignored) { } // Generated when the hostname isn't a hex
