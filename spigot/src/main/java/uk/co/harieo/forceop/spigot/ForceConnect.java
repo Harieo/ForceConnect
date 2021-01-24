@@ -16,8 +16,6 @@ import uk.co.harieo.forceop.common.TokenFileHandler;
 
 public class ForceConnect extends JavaPlugin implements Listener {
 
-	public static final String CHANNEL = "forceop:firewall";
-
 	private PluginConfig pluginConfig;
 	private boolean enabled = false;
 	private byte[] hash;
@@ -109,9 +107,7 @@ public class ForceConnect extends JavaPlugin implements Listener {
 
 			try {
 				MessageDigest digest = MessageDigest.getInstance(pluginConfig.getHashingAlgorithm());
-				if (Arrays.equals(digest.digest(DataConverter.convertHexToBytes(hostname)), hash)) {
-					allowLogin = true;
-				}
+				allowLogin = Arrays.equals(digest.digest(DataConverter.convertHexToBytes(hostname)), hash);
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			} catch (IllegalArgumentException ignored) { } // Generated when the hostname isn't a hex
