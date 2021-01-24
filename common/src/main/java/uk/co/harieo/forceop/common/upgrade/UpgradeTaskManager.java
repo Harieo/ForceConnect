@@ -1,5 +1,6 @@
 package uk.co.harieo.forceop.common.upgrade;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
@@ -11,10 +12,15 @@ public class UpgradeTaskManager {
 				new ToJsonVersionUpgradeTask()
 		);
 
-		for (UpgradeTask task : upgradeTasks) {
-			if (task.needsUpgrade(baseDir)) {
-				task.upgrade(baseDir);
+		try {
+			for (UpgradeTask task : upgradeTasks) {
+				if (task.needsUpgrade(baseDir)) {
+					task.upgrade(baseDir);
+				}
 			}
+		} catch (IOException ex) {
+			System.out.println("Exception occurred while attempting upgrade tasks:");
+			ex.printStackTrace();
 		}
 	}
 
