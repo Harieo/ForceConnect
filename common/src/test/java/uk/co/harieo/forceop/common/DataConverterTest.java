@@ -48,7 +48,7 @@ public class DataConverterTest {
 
 		for (TestCase tc : table) {
 			String result = DataConverter.convertBytesToHex(tc.bytes);
-			assertEquals(tc.str, result);
+			assertEquals(tc.testName, tc.str, result);
 		}
 	}
 
@@ -70,7 +70,7 @@ public class DataConverterTest {
 
 		for (TestCase tc : table) {
 			byte[] result = DataConverter.convertHexToBytes(tc.str);
-			assertEquals(tc.bytes, result);
+			assertEquals(tc.testName, tc.bytes, result);
 		}
 	}
 
