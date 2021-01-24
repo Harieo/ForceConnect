@@ -34,7 +34,7 @@ public class DataConverter {
 			char firstChar = hexChars[i];
 			char secondChar = hexChars[i + 1];
 
-			bytes[byteIndex] = (byte) (decodeHexChar(firstChar) + decodeHexChar(secondChar));
+			bytes[byteIndex] = (byte) (decodeHexChar(firstChar)*16 + decodeHexChar(secondChar));
 			byteIndex++;
 		}
 
