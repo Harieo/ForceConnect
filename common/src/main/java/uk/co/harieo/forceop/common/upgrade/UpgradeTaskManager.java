@@ -1,5 +1,8 @@
 package uk.co.harieo.forceop.common.upgrade;
 
+import uk.co.harieo.forceop.common.upgrade.v2_jsonfiles.UpgradeServer;
+import uk.co.harieo.forceop.common.upgrade.v2_jsonfiles.UpgradeProxy;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -9,7 +12,8 @@ public class UpgradeTaskManager {
 
 	public static void checkAndRunUpgradeTasks(Path baseDir) {
 		List<UpgradeTask> upgradeTasks = Arrays.asList(
-				new ToJsonVersionUpgradeTask()
+				new UpgradeProxy(),
+				new UpgradeServer()
 		);
 
 		try {
