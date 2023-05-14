@@ -1,4 +1,4 @@
-package uk.co.harieo.forceop.bungee;
+package uk.co.harieo.forceconnect.common;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -1,4 +1,4 @@
-package uk.co.harieo.forceop.spigot;
+package uk.co.harieo.forceconnect.spigot;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import uk.co.harieo.forceop.common.DataConverter;
-import uk.co.harieo.forceop.common.TokenFileHandler;
+import uk.co.harieo.forceconnect.common.DataConverter;
+import uk.co.harieo.forceconnect.common.TokenFileHandler;
 
 public class ForceConnect extends JavaPlugin implements Listener {
 

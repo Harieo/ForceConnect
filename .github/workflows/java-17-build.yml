@@ -1,7 +1,6 @@
-# This workflow will build a Java project with Maven
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+# This workflow ensures that the plugin can build on Minecraft's latest version using Java 17 (as of Minecraft 1.19)
 
-name: Java 11 - Build
+name: Java 17 - Build
 
 on:
   push:
@@ -15,9 +14,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK 1.11
+      - name: Set up JDK 17
         uses: actions/setup-java@v1
         with:
-          java-version: 1.11
+          java-version: 17
       - name: Build with Maven
         run: mvn -B package --file pom.xml

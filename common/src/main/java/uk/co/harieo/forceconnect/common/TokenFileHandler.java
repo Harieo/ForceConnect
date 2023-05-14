@@ -1,4 +1,4 @@
-package uk.co.harieo.forceop.common;
+package uk.co.harieo.forceconnect.common;
 
 import java.io.*;
 import java.nio.charset.Charset;

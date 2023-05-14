@@ -1,4 +1,4 @@
-main: uk.co.harieo.forceop.spigot.ForceConnect
+main: uk.co.harieo.forceconnect.spigot.ForceConnect
 version: 1.1.0
 name: ForceConnect
 author: Harieo

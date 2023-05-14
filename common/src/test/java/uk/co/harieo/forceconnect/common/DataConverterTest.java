@@ -1,4 +1,4 @@
-package uk.co.harieo.forceop.common;
+package uk.co.harieo.forceconnect.common;
 
 import org.junit.Before;
 import org.junit.Test;

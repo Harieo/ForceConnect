@@ -1,4 +1,4 @@
-package uk.co.harieo.forceop.spigot;
+package uk.co.harieo.forceconnect.spigot;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

@@ -1,4 +1,4 @@
-package uk.co.harieo.forceop.bungee;
+package uk.co.harieo.forceconnect.bungee;
 
 import java.io.File;
 import java.io.IOException;

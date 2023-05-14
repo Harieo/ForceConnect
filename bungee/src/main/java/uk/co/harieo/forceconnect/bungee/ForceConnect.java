@@ -1,4 +1,4 @@
-package uk.co.harieo.forceop.bungee;
+package uk.co.harieo.forceconnect.bungee;
 
 import java.io.IOException;
 import net.md_5.bungee.api.event.PlayerHandshakeEvent;
@@ -6,8 +6,9 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 import net.md_5.bungee.event.EventHandler;
-import uk.co.harieo.forceop.common.DataConverter;
-import uk.co.harieo.forceop.common.TokenFileHandler;
+import uk.co.harieo.forceconnect.common.DataConverter;
+import uk.co.harieo.forceconnect.common.TokenFileHandler;
+import uk.co.harieo.forceconnect.common.TokenGenerator;
 
 public class ForceConnect extends Plugin implements Listener {
 
@@ -52,9 +53,7 @@ public class ForceConnect extends Plugin implements Listener {
 			verboseLog("Hashed successfully. Saving to file...");
 			tokenFileHandler.writeHash(hash);
 			tokenFileHandler.writeToken(token);
-			getLogger()
-					.info("Your token file has been generated at path: "
-							+ tokenFileHandler.getTokenHashFile().getPath());
+			getLogger().info("Your token file has been generated at path: " + tokenFileHandler.getTokenHashFile().getPath());
 		} catch (SecurityException e) {
 			e.printStackTrace();
 			getLogger().severe("There has been a security failure generating the token");

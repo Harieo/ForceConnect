@@ -1,4 +1,4 @@
-package uk.co.harieo.forceop.bungee;
+package uk.co.harieo.forceconnect.bungee;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
