@@ -1,4 +1,17 @@
 main: uk.co.harieo.forceop.spigot.ForceConnect
-version: 1.0.1
+version: 1.1.0
 name: ForceConnect
 author: Harieo
+api-version: 1.19
+permissions:
+  forceconnect.reload:
+    default: op
+    description: 'Allows the ForceConnect plugin to be reloaded.'
+commands:
+  regenkey:
+    description: 'Reload the ForceConnect plugin key file'
+    permission: 'forceconnect.reload'
+    aliases:
+      - 'regeneratekey'
+      - 'fcregen'
+      - 'forceconnectregen'

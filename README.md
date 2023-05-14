@@ -1,4 +1,4 @@
-# ForceConnect ![Java CI](https://github.com/Harieo/ForceConnect/workflows/Java%20CI/badge.svg) ![CodeQL](https://github.com/Harieo/ForceConnect/workflows/CodeQL/badge.svg)
+# ForceConnect [![Java 17 - Build](https://github.com/Harieo/ForceConnect/actions/workflows/java-17-build.yml/badge.svg)](https://github.com/Harieo/ForceConnect/actions/workflows/java-17-build.yml) [![Code Scanning - Action](https://github.com/Harieo/ForceConnect/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Harieo/ForceConnect/actions/workflows/codeql-analysis.yml)
 A simple firewall-like plugin to prevent UUID spoofing and enforce proxy-side security checks on players.  
 **Please read our legal disclaimer about this project's license at the bottom of this page.**
 
@@ -41,7 +41,7 @@ Thanks to everyone who downloads, enjoys and contributes to the development of F
 
 # Legal Disclaimer
 ```
-Copyright (c) 2020 Harieo
+Copyright (c) 2020-2023 Harieo
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
