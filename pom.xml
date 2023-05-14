@@ -15,38 +15,29 @@
         <module>common</module>
     </modules>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>24.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
-                <executions>
-                    <execution>
-                        <id>jdk8</id>
-                        <configuration>
-                            <source>1.8</source>
-                            <target>1.8</target>
-                            <fork>true</fork>
-                            <classifier>jdk8</classifier>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>jdk11</id>
-                        <configuration>
-                            <release>11</release>
-                            <fork>true</fork>
-                            <classifier>jdk11</classifier>
-                        </configuration>
-                    </execution>
-                </executions>
+                <configuration>
+                    <release>17</release>
+                </configuration>
             </plugin>
         </plugins>
     </build>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

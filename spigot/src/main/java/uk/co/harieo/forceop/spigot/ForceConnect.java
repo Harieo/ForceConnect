@@ -11,8 +11,11 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Optional;
+
 import uk.co.harieo.forceop.common.DataConverter;
 import uk.co.harieo.forceop.common.TokenFileHandler;
+import uk.co.harieo.forceop.common.TokenWrapper;
 
 public class ForceConnect extends JavaPlugin implements Listener {
 
@@ -45,6 +48,7 @@ public class ForceConnect extends JavaPlugin implements Listener {
 		}
 
 		Bukkit.getPluginManager().registerEvents(this, this);
+		Optional.ofNullable(Bukkit.getPluginCommand("regenkey")).ifPresent(command -> command.setExecutor(new ReloadCommand(this)));
 	}
 
 	/**
@@ -76,7 +80,7 @@ public class ForceConnect extends JavaPlugin implements Listener {
 	/**
 	 * Attempts to load the hash from the token file
 	 */
-	private void loadHash() {
+	public void loadHash() {
 		TokenFileHandler tokenFileHandler = new TokenFileHandler(getDataFolder());
 		if (tokenFileHandler.base64Exists()) { // Warn the user if they've uploaded the wrong file
 			getLogger().severe("The private key has been detected on this server. "
@@ -103,14 +107,15 @@ public class ForceConnect extends JavaPlugin implements Listener {
 	public void onPlayerLogin(PlayerLoginEvent event) {
 		boolean allowLogin = !pluginConfig.isFailsafe();
 		if (enabled) {
-			String hostname = event.getHostname().split(":")[0];
-
 			try {
-				MessageDigest digest = MessageDigest.getInstance(pluginConfig.getHashingAlgorithm());
-				allowLogin = Arrays.equals(digest.digest(DataConverter.convertHexToBytes(hostname)), hash);
-			} catch (NoSuchAlgorithmException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException ignored) { } // Generated when the hostname isn't a hex
+				TokenWrapper wrappedToken = TokenWrapper.unwrap(event.getHostname());
+				try {
+					MessageDigest digest = MessageDigest.getInstance(pluginConfig.getHashingAlgorithm());
+					allowLogin = Arrays.equals(digest.digest(DataConverter.convertHexToBytes(wrappedToken.token())), hash);
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				}
+			} catch (IllegalArgumentException ignored) {} // No valid token provided
 		}
 
 		if (!allowLogin) {

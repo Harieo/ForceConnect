@@ -8,13 +8,14 @@ import net.md_5.bungee.api.plugin.PluginManager;
 import net.md_5.bungee.event.EventHandler;
 import uk.co.harieo.forceop.common.DataConverter;
 import uk.co.harieo.forceop.common.TokenFileHandler;
+import uk.co.harieo.forceop.common.TokenWrapper;
 
 public class ForceConnect extends Plugin implements Listener {
 
 	private PluginConfig pluginConfig;
 	private TokenGenerator generator;
 	private TokenFileHandler tokenFileHandler;
-	private String token;
+	private TokenWrapper wrappedToken;
 
 	@Override
 	public void onEnable() {
@@ -25,7 +26,7 @@ public class ForceConnect extends Plugin implements Listener {
 		if (tokenFileHandler.base64Exists()) {
 			verboseLog("A token file already exists. If you need a new one, use /forceconnect generate");
 			try {
-				token = tokenFileHandler.readToken();
+				wrappedToken = new TokenWrapper(tokenFileHandler.readToken());
 			} catch (IOException e) {
 				e.printStackTrace();
 				getLogger().severe("Failed to read private key, this is a fatal error.");
@@ -46,12 +47,12 @@ public class ForceConnect extends Plugin implements Listener {
 		try {
 			verboseLog("Generating a new secure key...");
 			byte[] tokenArray = generator.nextToken();
-			token = DataConverter.convertBytesToHex(tokenArray);
+			wrappedToken = new TokenWrapper(DataConverter.convertBytesToHex(tokenArray));
 			verboseLog("Key generated, attempting to hash...");
-			byte[] hash = generator.hash(DataConverter.convertHexToBytes(token));
+			byte[] hash = generator.hash(DataConverter.convertHexToBytes(wrappedToken.token()));
 			verboseLog("Hashed successfully. Saving to file...");
 			tokenFileHandler.writeHash(hash);
-			tokenFileHandler.writeToken(token);
+			tokenFileHandler.writeToken(wrappedToken.token());
 			getLogger()
 					.info("Your token file has been generated at path: "
 							+ tokenFileHandler.getTokenHashFile().getPath());
@@ -77,7 +78,7 @@ public class ForceConnect extends Plugin implements Listener {
 
 	@EventHandler
 	public void onHandshake(PlayerHandshakeEvent event) {
-		event.getHandshake().setHost(token);
+		event.getHandshake().setHost(wrappedToken.wrap());
 	}
 
 }
